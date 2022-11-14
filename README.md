@@ -23,6 +23,6 @@ All the task related transaction of api will be request through `<rooturl/v1/tal
 | # | PATH | METHOD | IS PRIVATE | DESCRIPTION |
 |---|------|--------|------------|-------------------------------------------------------------|
 |1. |`/` |GET | NO | This end point will return all the task from DB |
-|2. |`/` |POST | NO | Receives an oject from the client and stores in the database|
-|3. |`/` |PUT | NO | Receives `_id` oject from the client and stores in the database|
-|4. |`/` |DELETE | NO | Receives an oject from the client and stores in the database|
+|2. |`/` |POST | NO | Receives an object from the client and stores in the database|
+|3. |`/` |PUT | NO | Receives `_id` object from the client and updates in the database|
+|4. |`/` |DELETE | NO | Receives `_id` object from the client and deletes in the database|

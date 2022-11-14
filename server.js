@@ -3,31 +3,81 @@ const app = express();
 const PORT = 8000;
 
 import morgan from "morgan";
-//middleware
+import router from "./src/router/taskRouter.js";
+
 app.use(morgan("dev"));
+app.use(express.json());
 
-// api endpoints
+//fakedatatask
+let faketasktable = [
+  {
+    _id: 1,
+    task: "cooking",
+    hr: 2,
+  },
+  {
+    _id: 2,
+    task: "shopping",
+    hr: 5,
+  },
+  {
+    _id: 3,
+    task: "browsing",
+    hr: 9,
+  },
+];
 
-// workflow : CRUD
-// C(create) => receive new task and store in the database
-app.post("/api/v1/task", (req, res) => {
-  res.json({ message: "todo Post method" });
+router.post("/", (req, res) => {
+  console.log(req.body);
+  faketasktable.push(req.body);
+  res.json({
+    status: "Success",
+    message: "Data Added.",
+  });
 });
 
-// R(Read) => read data from data base and return to the client
-app.get("/api/v1/task", (req, res) => {
-  res.json({ message: "todo get method" });
+router.get("/", (req, res) => {
+  console.log(req.body);
+  res.json({
+    status: "Success",
+    message: "Data Received.",
+  });
 });
 
-// U(Update) => update some information of existing data int he database and respond client accordingly
-app.put("/api/v1/task", (req, res) => {
-  res.json({ message: "todo put method" });
+router.delete("/:_id?", (req, res) => {
+  const { _id } = req.params;
+
+  if (!_id) {
+    res.status(400).json({
+      status: "Error",
+      message: "Invalid ID.",
+    });
+  }
+  console.log(req.params);
+  faketasktable = faketasktable.filter((task) => task._id != _id);
+  res.json({
+    status: "Success",
+    message: "Data Deleted.",
+  });
 });
 
-//D(Delete) => Delete data(s) from database and response client accordingly
-app.delete("/api/v1/task", (req, res) => {
-  res.json({ message: "todo delete method" });
+router.put("/", (req, res) => {
+  const _id = req.body._id;
+  faketasktable = faketasktable.map((task) => {
+    if (task._id === _id) {
+      return req.body;
+    } else {
+      return task;
+    }
+  });
+  res.json({
+    status: "Success",
+    message: "Data Updated.",
+  });
 });
+
+import taskRouter from "./src/router/taskRouter.js";
+app.use("/api/v1/task", taskRouter);
 
 app.listen(PORT, (error) => {
   error
